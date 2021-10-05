@@ -15,7 +15,7 @@ const renderGoodsItem = ({ title, price }) => {
 const renderGoodsList = (list = goods) => {
     let goodsList = list.map(
             item => renderGoodsItem(item)
-        );
+        ).join('');
 
     $goodsList.insertAdjacentHTML('beforeend', goodsList);
 }

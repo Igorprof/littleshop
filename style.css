@@ -1,0 +1,30 @@
+header {
+    margin-bottom: 20px;
+}
+
+.cart-button {
+    background-color:gray;
+}
+
+.goods-list {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: start;
+}
+
+.goods-item {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.goods-item:hover {
+    background-color: green;
+    transition: .5s;
+}
