@@ -9,6 +9,7 @@ class GoodsItem {
   }
 }
 
+
 class GoodsList {
     constructor() {
       this.goods = [];
@@ -38,6 +39,30 @@ class GoodsList {
         return totalCost;
     }
   }
+
+
+class Cart extends GoodsList {
+    constructor() {
+        super()
+    }
+
+    addGood(good) {
+        return true;
+    }
+
+    deleteGood(good) {
+        return true;
+    }
+    
+}
+
+
+class CartElement extends GoodsList {
+    constructor() {
+        super()
+    }
+
+}
 
 const list = new GoodsList();
 list.fetchGoods();
