@@ -1,23 +1,44 @@
-const goods = [
-    { title: 'Shirt', price: 150 },
-    { title: 'Socks', price: 50 },
-    { title: 'Jacket', price: 350 },
-    { title: 'Shoes', price: 250 },
-];
+class GoodsItem {
+  constructor(title, price) {
+    this.title = title;
+    this.price = price;
+  }
 
-
-const $goodsList = document.querySelector('.goods-list');
-  
-const renderGoodsItem = ({ title, price }) => {
-    return `<div class="goods-item"><h3>${title}</h3><p>${price}</p></div>`;
-};
-  
-const renderGoodsList = (list = goods) => {
-    let goodsList = list.map(
-            item => renderGoodsItem(item)
-        ).join('');
-
-    $goodsList.insertAdjacentHTML('beforeend', goodsList);
+  render() {
+    return `<div class="goods-item"><h3>${this.title}</h3><p>${this.price}</p></div>`;
+  }
 }
-  
-renderGoodsList();
+
+class GoodsList {
+    constructor() {
+      this.goods = [];
+    }
+
+    fetchGoods() {
+      this.goods = [
+        { title: 'Shirt', price: 150 },
+        { title: 'Socks', price: 50 },
+        { title: 'Jacket', price: 350 },
+        { title: 'Shoes', price: 250 },
+      ];
+    }
+
+    render() {
+      let listHtml = '';
+      this.goods.forEach(good => {
+        const goodItem = new GoodsItem(good.title, good.price);
+        listHtml += goodItem.render();
+      });
+      document.querySelector('.goods-list').insertAdjacentHTML('beforeend', listHtml);
+      document.querySelector('.total-cost').insertAdjacentHTML('beforeend', `Общая стоимость: ${this.getTotalCost()}`);
+    }
+
+    getTotalCost() {
+        const totalCost = this.goods.reduce((total, {price}) => (total + price), 0);
+        return totalCost;
+    }
+  }
+
+const list = new GoodsList();
+list.fetchGoods();
+list.render();
