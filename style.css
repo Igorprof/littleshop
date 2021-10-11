@@ -28,3 +28,7 @@ header {
     background-color: green;
     transition: .5s;
 }
+
+.total-cost {
+    text-align: center;
+}
