@@ -1,3 +1,42 @@
+const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/'
+
+function send(url, method = 'GET', data = null, headers = [], timeout = 60000) {
+  return new Promise((resolve, reject) => {
+    let xhr;
+
+    if (window.XMLHttpRequest) {
+        // Chrome, Mozilla, Opera, Safari
+        xhr = new XMLHttpRequest();
+    }  else if (window.ActiveXObject) { 
+        // Internet Explorer
+        xhr = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+    xhr.open(method, url, true);
+
+
+    headers.forEach((header) => {
+        xhr.setRequestHeader(header.key, header.value);
+    })
+    
+
+    xhr.timeout = timeout;
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if(xhr.status >= 400) {
+              reject(xhr.statusText)
+          } else {
+              resolve(xhr.responseText)
+          }
+        }
+    }
+
+    xhr.send(data);
+    })  
+}
+
+
 class GoodsItem {
   constructor(title, price) {
     this.title = title;
@@ -16,12 +55,24 @@ class GoodsList {
     }
 
     fetchGoods() {
-      this.goods = [
-        { title: 'Shirt', price: 150 },
-        { title: 'Socks', price: 50 },
-        { title: 'Jacket', price: 350 },
-        { title: 'Shoes', price: 250 },
-      ];
+      fetch(`${API_URL}catalogData.json`)
+        .then((response) => {
+          return response.json();
+        })
+        .then((response) => {
+          this.goods = response.map(good => ({title: good.product_name, price: good.price}))
+          this.render();
+        })
+        .catch((err) => { 
+          console.log(err.text)
+      })
+
+      // this.goods = [
+      //   { title: 'Shirt', price: 150 },
+      //   { title: 'Socks', price: 50 },
+      //   { title: 'Jacket', price: 350 },
+      //   { title: 'Shoes', price: 250 },
+      // ];
     }
 
     render() {
@@ -47,11 +98,31 @@ class Cart extends GoodsList {
     }
 
     addGood(good) {
-        return true;
+      fetch(`${API_URL}addToBasket.json`)
+      .then((response) => {
+        return response.json();
+      })
+      .catch((err) => { 
+        console.log(err.text)
+    })
     }
 
     deleteGood(good) {
         return true;
+    }
+
+    getBasket() {
+      fetch(`${API_URL}getBasket.json`)
+        .then((response) => {
+          return response.json();
+        })
+        .then((response) => {
+          this.goods = response.contents.map(good => ({title: good.product_name, price: good.price, quantity: good.quantity}))
+          this.render();
+        })
+        .catch((err) => { 
+          console.log(err.text)
+      })
     }
     
 }
@@ -64,6 +135,9 @@ class CartElement extends GoodsList {
 
 }
 
-const list = new GoodsList();
-list.fetchGoods();
-list.render();
+// const list = new GoodsList();
+// list.fetchGoods();
+
+const cart = new Cart();
+// cart.addGood({title: 'Принтер', price: 12200})
+cart.getBasket()
