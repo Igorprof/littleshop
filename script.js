@@ -92,6 +92,18 @@ class GoodsList {
   }
 
 
+class CartElement extends GoodsItem {
+    constructor(title, price, quantity) {
+        super(title, price)
+        this.quantity = quantity
+    }
+
+    render() {
+      return `<div class="goods-item"><h3>${this.title}</h3><p>${this.price}</p><p>${this.quantity}</p></div>`
+    }
+}
+
+
 class Cart extends GoodsList {
     constructor() {
         super()
@@ -124,16 +136,23 @@ class Cart extends GoodsList {
           console.log(err.text)
       })
     }
-    
-}
 
-
-class CartElement extends GoodsList {
-    constructor() {
-        super()
+    render() {
+      let listHtml = '';
+      this.goods.forEach(good => {
+        const cartItem = new CartElement(good.title, good.price, good.quantity);
+        listHtml += cartItem.render();
+      });
+      document.querySelector('.goods-list').insertAdjacentHTML('beforeend', listHtml);
+      document.querySelector('.total-cost').insertAdjacentHTML('beforeend', `Общая стоимость: ${this.getTotalCost()}`);
     }
 
+    getTotalCost() {
+        const totalCost = this.goods.reduce((total, {price, quantity}) => (total + price*quantity), 0);
+        return totalCost;
+    }    
 }
+
 
 // const list = new GoodsList();
 // list.fetchGoods();
