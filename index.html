@@ -15,13 +15,19 @@
       <button class="cart-button" type="button" @click="showCart">{{ cartButtonText }}</button>
     </header>
     <main>
-      <div class="goods-list">
-        <div class="goods-item" v-bind:key="index" v-for="(good, index) of filteredGoods"><h3>{{ good.title }}</h3><p>{{ good.price }}</p></div>
+      <div class="goods-list" v-if="filteredGoods.length != 0">
+        <div class="goods-item" v-bind:key="index" v-for="(good, index) of filteredGoods"><h3>{{ good.title }}</h3><p>{{ good.price }}₽</p></div>
+      </div>
+      <div class="goods-list" v-else>
+        <p>Нет данных</p>
       </div>
       <div class="cart" v-if="isVisibleCart">
-        <p>Привет от корзины!!</p> 
-      </div>
-      <p class="total-cost"></p>
+        <p>Корзина</p> 
+        <div class="goods-list">
+          <div class="goods-item" v-bind:key="index" v-for="(good, index) of basketGoods"><h3>{{ good.title }}</h3><p>{{ good.price }}₽</p><p>{{ good.quantity }}</p></div>
+        </div>
+        <p class="total-cost" v-if="totalCost != 0">Общая стоимость: {{ totalCost }}</p>
+      </div>      
     </main>
   </div>
   

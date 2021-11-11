@@ -4,8 +4,8 @@ body {
     font-family: 'Courier New', Courier, monospace;
     font-size: 19pt;
 }
+
 header {
-    margin-bottom: 20px;
     background-color: rosybrown;
     display: flex;
     justify-content: start;
@@ -28,10 +28,10 @@ header {
     background-color:gray;
     border-radius: 10%;
     font-size: 12pt;
-    justify-self: center;
 }
 
 .goods-list {
+    padding-top: 20px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -39,8 +39,8 @@ header {
 }
 
 .goods-item {
-    width: 150px;
-    height: 150px;
+    width: 180px;
+    /* height: 180px; */
     margin-right: 20px;
     border: 2px solid black;
     display: flex;
@@ -54,6 +54,12 @@ header {
     transition: .5s;
 }
 
-.total-cost {
-    text-align: center;
+.cart>p {
+    font-size: 30pt;
+}
+
+main {
+    /* background: linear-gradient(rgb(163, 124, 124), white); */
+    background: lightcyan;
+    height: 100vh;
 }

@@ -188,6 +188,7 @@ var app = new Vue({
   data: {
     goods: [],
     filteredGoods: [],
+    basketGoods: [],
     searchLine: '',
     isVisibleCart: false,
     cartButtonText: 'Корзина',
@@ -207,19 +208,38 @@ var app = new Vue({
       })
     },
 
-    
-
     filterGoods() {
       const searchReg = new RegExp(this.searchLine);
       this.filteredGoods = this.goods.filter(good => searchReg.test(good.title))
     },
 
+    getBasketGoods() {
+      fetch(`${API_URL}getBasket.json`)
+        .then((response) => {
+          return response.json();
+        })
+        .then((response) => {
+          this.basketGoods = response.contents.map(good => ({title: good.product_name, price: good.price, quantity: good.quantity}))
+        })
+        .catch((err) => { 
+          console.log(err.text)
+      })
+    },
+
     showCart() {
       this.isVisibleCart = !this.isVisibleCart;
       this.cartButtonText = this.isVisibleCart ? 'Скрыть корзину' : 'Корзина'
+      this.getBasketGoods();      
     }
 
   },
+
+  computed: {
+    totalCost() {
+      return this.basketGoods.reduce((total, {price, quantity}) => (total + price*quantity), 0);
+    }    
+  },
+
   mounted() {
     this.loadGoods();
   }
