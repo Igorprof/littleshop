@@ -1,5 +1,26 @@
 const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/'
 
+Vue.component('goods-list', {
+  props: ['goods'],
+  template: `
+    <div class="goods-list container">
+      <goods-item v-for="good of goods" :good="good"></goods-item>
+    </div>
+  `
+})
+
+
+Vue.component('goods-item', {
+  props: ['good'],
+  template: `
+    <div class="goods-item">
+      <h3>{{ good.title }}</h3>
+      <p>{{ good.price }}₽</p>
+    </div>
+  `
+})
+
+
 var app = new Vue({
   el: '#app',
   data: {

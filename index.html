@@ -20,12 +20,7 @@
       </div>
     </header>
     <main>
-      <div class="goods-list container" v-if="filteredGoods.length != 0">
-        <div class="goods-item" v-bind:key="index" v-for="(good, index) of filteredGoods">
-          <h3>{{ good.title }}</h3>
-          <p>{{ good.price }}₽</p>
-        </div>
-      </div>
+      <goods-list :goods="filteredGoods" v-if="filteredGoods.length != 0"></goods-list>
       <div class="goods-list container" v-else>
         <p>Нет данных</p>
       </div>
