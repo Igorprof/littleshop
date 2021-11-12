@@ -5,16 +5,32 @@ body {
     font-size: 19pt;
 }
 
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+
 header {
     background-color: rosybrown;
+    height: 40px;
+}
+
+.menu {
     display: flex;
     justify-content: start;
-    height: 40px;
     align-items: center;
+    height: 100%;
+}
+
+button {
+    border: none;
 }
 
 .goods-search {
     margin-right: 30px;
+    border: none;
+    border-radius: 5px;
+    height: 60%;
 }
 
 .search-button {
@@ -25,7 +41,8 @@ header {
 }
 
 .cart-button {
-    background-color:gray;
+    margin-right: 30px;
+    background-color: gray;
     border-radius: 10%;
     font-size: 12pt;
 }

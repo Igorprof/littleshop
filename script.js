@@ -9,6 +9,7 @@ var app = new Vue({
     searchLine: '',
     isVisibleCart: false,
     cartButtonText: 'Корзина',
+    isQuickSearch: false,
   },
   methods: {
     loadGoods() {
@@ -25,9 +26,11 @@ var app = new Vue({
       })
     },
 
-    filterGoods() {
-      const searchReg = new RegExp(this.searchLine);
-      this.filteredGoods = this.goods.filter(good => searchReg.test(good.title))
+    filterGoods(isCheck=false) {
+      if (!isCheck || this.isQuickSearch) {
+        const searchReg = new RegExp(this.searchLine);
+        this.filteredGoods = this.goods.filter(good => searchReg.test(good.title));
+      }      
     },
 
     getBasketGoods() {

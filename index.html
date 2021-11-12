@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,31 +8,43 @@
   <title>eShop</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <div id="app">
     <header>
-      <input type="text" class="goods-search" v-model="searchLine" v-on:input="filterGoods" />
-      <button class="search-button" type="button" @click="filterGoods">Искать</button>
-      <button class="cart-button" type="button" @click="showCart">{{ cartButtonText }}</button>
+      <div class="container menu">
+        <input type="text" class="goods-search" v-model="searchLine" @input="filterGoods(true)" />
+        <button class="search-button" type="button" @click="filterGoods()">Искать</button>
+        <button class="cart-button" type="button" @click="showCart">{{ cartButtonText }}</button>
+        <input type="checkbox" id="quickSearch" name="quickSearch" v-model="isQuickSearch" /><label for="quickSearch">Быстрый поиск</label>
+      </div>
     </header>
     <main>
-      <div class="goods-list" v-if="filteredGoods.length != 0">
-        <div class="goods-item" v-bind:key="index" v-for="(good, index) of filteredGoods"><h3>{{ good.title }}</h3><p>{{ good.price }}₽</p></div>
+      <div class="goods-list container" v-if="filteredGoods.length != 0">
+        <div class="goods-item" v-bind:key="index" v-for="(good, index) of filteredGoods">
+          <h3>{{ good.title }}</h3>
+          <p>{{ good.price }}₽</p>
+        </div>
       </div>
-      <div class="goods-list" v-else>
+      <div class="goods-list container" v-else>
         <p>Нет данных</p>
       </div>
-      <div class="cart" v-if="isVisibleCart">
-        <p>Корзина</p> 
+      <div class="cart container" v-if="isVisibleCart">
+        <p>Корзина</p>
         <div class="goods-list">
-          <div class="goods-item" v-bind:key="index" v-for="(good, index) of basketGoods"><h3>{{ good.title }}</h3><p>{{ good.price }}₽</p><p>{{ good.quantity }}</p></div>
+          <div class="goods-item" v-bind:key="index" v-for="(good, index) of basketGoods">
+            <h3>{{ good.title }}</h3>
+            <p>{{ good.price }}₽</p>
+            <p>{{ good.quantity }}</p>
+          </div>
         </div>
         <p class="total-cost" v-if="totalCost != 0">Общая стоимость: {{ totalCost }}</p>
-      </div>      
+      </div>
     </main>
   </div>
-  
+
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   <script src="script.js"></script>
 </body>
+
 </html>
