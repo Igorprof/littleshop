@@ -22,15 +22,15 @@ Vue.component('goods-item', {
 
 
 Vue.component('cart', {
-  props: ['goods', 'totalCost'],
+  props: ['goods', 'totalcost'],
   template: `
-  <div class="cart">
-    <p>Корзина</p>
-    <div class="goods-list">
-      <cart-item v-for="good of goods" :good="good"></cart-item>     
+    <div class="cart">
+      <p>Корзина</p>
+      <div class="goods-list">
+        <cart-item v-for="good of goods" :good="good"></cart-item>  
+      </div>
+      <p class="total-cost">Общая стоимость: {{ totalcost }}</p>
     </div>
-    <p class="total-cost" v-if="totalCost != 0">Общая стоимость: {{ totalCost }}</p>
-  </div>
   `
 })
 
@@ -96,9 +96,10 @@ var app = new Vue({
     showCart() {
       this.isVisibleCart = !this.isVisibleCart;
       this.cartButtonText = this.isVisibleCart ? 'Скрыть корзину' : 'Корзина'
-      this.getBasketGoods();      
+      if (this.isVisibleCart) {
+        this.getBasketGoods();    
+      }  
     }
-
   },
 
   computed: {
