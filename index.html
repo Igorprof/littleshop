@@ -13,11 +13,14 @@
   <div id="app">
     <header>
       <div class="container menu">
-        <input type="text" class="goods-search" v-model="searchLine" @input="filterGoods(true)" />
-        <button class="search-button" type="button" @click="filterGoods()">Искать</button>
+        <!-- <div class="search">
+          <input type="text" class="goods-search" v-model="searchLine" @input="filterGoods(true)" />
+          <button class="search-button" type="button" @click="filterGoods()">Искать</button>
+          <input type="checkbox" id="quickSearch" name="quickSearch" v-model="isQuickSearch" />
+          <label for="quickSearch">Быстрый поиск</label>
+        </div> -->
+        <search @onsearch="filterGoods"></search>
         <button class="cart-button" type="button" @click="showCart">{{ cartButtonText }}</button>
-        <input type="checkbox" id="quickSearch" name="quickSearch" v-model="isQuickSearch" />
-        <label for="quickSearch">Быстрый поиск</label>
       </div>
     </header>
     <main>

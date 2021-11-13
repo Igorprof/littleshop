@@ -46,6 +46,28 @@ Vue.component('cart-item', {
   `
 })
 
+Vue.component('search', {
+  template: `
+    <div class="search">
+      <input type="text" class="goods-search" v-model="searchLine" @input="filterGoods(true)" />
+      <button class="search-button" type="button" @click="filterGoods()">Искать</button>
+      <input type="checkbox" id="quickSearch" name="quickSearch" v-model="isQuickSearch" />
+      <label for="quickSearch">Быстрый поиск</label>
+    </div>
+  `,
+  data() {
+    return {
+      searchLine: '',
+      isQuickSearch: false,
+    }
+  },
+  methods: {
+    filterGoods(is_quick=false) {
+      this.$emit('onsearch', this.searchLine, is_quick, this.isQuickSearch);
+    }
+  }
+})
+
 
 var app = new Vue({
   el: '#app',
@@ -53,10 +75,8 @@ var app = new Vue({
     goods: [],
     filteredGoods: [],
     basketGoods: [],
-    searchLine: '',
     isVisibleCart: false,
     cartButtonText: 'Корзина',
-    isQuickSearch: false,
   },
   methods: {
     loadGoods() {
@@ -73,9 +93,9 @@ var app = new Vue({
       })
     },
 
-    filterGoods(isCheck=false) {
-      if (!isCheck || this.isQuickSearch) {
-        const searchReg = new RegExp(this.searchLine, 'i');
+    filterGoods(searchLine, isCheck, isQuickSearch) {
+      if (!isCheck || isQuickSearch) {
+        const searchReg = new RegExp(searchLine, 'i');
         this.filteredGoods = this.goods.filter(good => searchReg.test(good.title));
       }      
     },
