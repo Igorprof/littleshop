@@ -13,12 +13,6 @@
   <div id="app">
     <header>
       <div class="container menu">
-        <!-- <div class="search">
-          <input type="text" class="goods-search" v-model="searchLine" @input="filterGoods(true)" />
-          <button class="search-button" type="button" @click="filterGoods()">Искать</button>
-          <input type="checkbox" id="quickSearch" name="quickSearch" v-model="isQuickSearch" />
-          <label for="quickSearch">Быстрый поиск</label>
-        </div> -->
         <search @onsearch="filterGoods"></search>
         <button class="cart-button" type="button" @click="showCart">{{ cartButtonText }}</button>
       </div>
@@ -26,12 +20,15 @@
     <main>
       <div class="container">
         <goods-list :goods="filteredGoods" v-if="filteredGoods.length != 0"></goods-list>
-        <div class="goods-list container" v-else>
+        <div class="goods-list" v-else>
           <p>Нет данных</p>
         </div>
       </div>
       <div class="container">
         <cart :goods="basketGoods" :totalcost="totalCost" v-if="isVisibleCart"></cart>
+      </div>
+      <div class="container">
+        <error v-if="isErrorFromServer"></error>
       </div>
     </main>
   </div>

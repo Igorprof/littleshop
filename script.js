@@ -62,10 +62,16 @@ Vue.component('search', {
     }
   },
   methods: {
-    filterGoods(is_quick=false) {
-      this.$emit('onsearch', this.searchLine, is_quick, this.isQuickSearch);
+    filterGoods(isCheck=false) {
+      this.$emit('onsearch', this.searchLine, isCheck, this.isQuickSearch);
     }
   }
+})
+
+Vue.component('error', {
+  template: `
+    <p class="error">Сервер не может загрузить данные</p>
+  `,
 })
 
 
@@ -77,6 +83,7 @@ var app = new Vue({
     basketGoods: [],
     isVisibleCart: false,
     cartButtonText: 'Корзина',
+    isErrorFromServer: false,
   },
   methods: {
     loadGoods() {
@@ -89,7 +96,8 @@ var app = new Vue({
           this.filteredGoods = response.map(good => ({title: good.product_name, price: good.price}));
         })
         .catch((err) => { 
-          console.log(err.text)
+          console.log(err.text);
+          this.isErrorFromServer = true;
       })
     },
 
@@ -109,7 +117,8 @@ var app = new Vue({
           this.basketGoods = response.contents.map(good => ({title: good.product_name, price: good.price, quantity: good.quantity}))
         })
         .catch((err) => { 
-          console.log(err.text)
+          console.log(err.text);
+          this.isErrorFromServer = true;
       })
     },
 

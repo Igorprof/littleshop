@@ -87,3 +87,8 @@ main {
     background: lightcyan;
     height: 100vh;
 }
+
+.error {
+    color: red;
+    font-weight: bold;
+}
