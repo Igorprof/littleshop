@@ -1,0 +1,22 @@
+{
+  "name": "littleshop",
+  "version": "1.0.0",
+  "description": "My little shop created to demonstrate javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Igorprof/littleshop.git"
+  },
+  "author": "Igorprof",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Igorprof/littleshop/issues"
+  },
+  "homepage": "https://github.com/Igorprof/littleshop#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
