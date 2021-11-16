@@ -16,6 +16,12 @@ app.get('/catalogData', (req, res) => {
     })
 })
 
+app.get('/basket', (req, res) => {
+    fs.readFile('data/cart.json', 'utf8', (err, data) => {
+        res.send(data);
+    })
+})
+
 app.listen(port, function() {
     console.log(`Server is running on port ${port}!`)
 })

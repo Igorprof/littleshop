@@ -109,7 +109,7 @@ var app = new Vue({
     },
 
     getBasketGoods() {
-      fetch(`${API_URL}getBasket.json`)
+      fetch(`${API_URL}basket`)
         .then((response) => {
           return response.json();
         })
@@ -117,7 +117,7 @@ var app = new Vue({
           this.basketGoods = response.contents.map(good => ({title: good.product_name, price: good.price, quantity: good.quantity}))
         })
         .catch((err) => { 
-          console.log(err.text);
+          console.log(err);
           this.isErrorFromServer = true;
       })
     },
