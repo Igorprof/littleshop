@@ -1,12 +1,17 @@
-const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/'
+const API_URL = 'http://127.0.0.1:3000/'
 
 Vue.component('goods-list', {
   props: ['goods'],
   template: `
     <div class="goods-list">
-      <goods-item v-for="good of goods" :good="good"></goods-item>
+      <goods-item v-for="good of goods" :good="good" @addedgood="addedGood"></goods-item>
     </div>
-  `
+  `,
+  methods: {
+    addedGood() {
+      this.$emit('addednewgood');
+    }
+  }
 })
 
 
@@ -16,8 +21,28 @@ Vue.component('goods-item', {
     <div class="goods-item">
       <h3>{{ good.title }}</h3>
       <p>{{ good.price }}₽</p>
+      <button class="add-del-cart-button" type="button" @click="addToCart">Добавить в корзину</button>
     </div>
-  `
+  `,
+  methods: {
+    addToCart() {
+      fetch(`${API_URL}addToCart`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({product_name: this.good.title, price: this.good.price}),
+      })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        if (response.status_code == 200) {
+          this.$emit('addedgood');
+        }
+      });
+    }
+  }
 })
 
 
@@ -27,11 +52,16 @@ Vue.component('cart', {
     <div class="cart">
       <p>Корзина</p>
       <div class="goods-list">
-        <cart-item v-for="good of goods" :good="good"></cart-item>  
+        <cart-item v-for="good of goods" :good="good" @deletedgood="deletedGood"></cart-item>  
       </div>
       <p class="total-cost">Общая стоимость: {{ totalcost }}</p>
     </div>
-  `
+  `,
+  methods: {
+    deletedGood() {
+      this.$emit('deletedgood');
+    }
+  }
 })
 
 
@@ -42,8 +72,28 @@ Vue.component('cart-item', {
       <h3>{{ good.title }}</h3>
       <p>{{ good.price }}₽</p>
       <p>{{ good.quantity }}</p>
+      <button class="add-del-cart-button" type="button" @click="delFromCart">Удалить из корзины</button>
     </div>
-  `
+  `,
+  methods: {
+    delFromCart() {
+      fetch(`${API_URL}deleteFromCart`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({product_name: this.good.title, price: this.good.price}),
+      })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        if (response.status_code == 200) {
+          this.$emit('deletedgood');
+        }
+      });
+    }
+  }
 })
 
 Vue.component('search', {
@@ -87,7 +137,7 @@ var app = new Vue({
   },
   methods: {
     loadGoods() {
-      fetch(`${API_URL}catalogData.json`)
+      fetch(`${API_URL}catalogData`)
         .then((response) => {
           return response.json();
         })
@@ -109,7 +159,7 @@ var app = new Vue({
     },
 
     getBasketGoods() {
-      fetch(`${API_URL}getBasket.json`)
+      fetch(`${API_URL}basket`)
         .then((response) => {
           return response.json();
         })
@@ -117,7 +167,7 @@ var app = new Vue({
           this.basketGoods = response.contents.map(good => ({title: good.product_name, price: good.price, quantity: good.quantity}))
         })
         .catch((err) => { 
-          console.log(err.text);
+          console.log(err);
           this.isErrorFromServer = true;
       })
     },
@@ -138,6 +188,6 @@ var app = new Vue({
   },
 
   mounted() {
-    this.loadGoods();
+    this.loadGoods();   
   }
 })

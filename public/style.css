@@ -63,6 +63,7 @@ button {
 }
 
 .goods-item {
+    padding: 10px;
     width: 180px;
     /* height: 180px; */
     margin-right: 20px;
@@ -74,8 +75,19 @@ button {
 }
 
 .goods-item:hover {
-    background-color: green;
+    background-color: blanchedalmond;
     transition: .5s;
+}
+
+.add-del-cart-button {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 10pt;
+    padding: 5px;
+}
+
+.add-cart-button:hover {
+    background-color: yellow;
+    transition: .4s;
 }
 
 .cart>p {
