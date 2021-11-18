@@ -16,8 +16,20 @@ Vue.component('goods-item', {
     <div class="goods-item">
       <h3>{{ good.title }}</h3>
       <p>{{ good.price }}₽</p>
+      <button class="add-cart-button" type="button" @click="addToCart">Добавить в корзину</button>
     </div>
-  `
+  `,
+  methods: {
+    addToCart() {
+      fetch(`${API_URL}addToCart`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({product_name: this.good.title, price: this.good.price}),
+      })
+    }
+  }
 })
 
 
