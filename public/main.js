@@ -4,9 +4,14 @@ Vue.component('goods-list', {
   props: ['goods'],
   template: `
     <div class="goods-list">
-      <goods-item v-for="good of goods" :good="good"></goods-item>
+      <goods-item v-for="good of goods" :good="good" @addedgood="addedGood"></goods-item>
     </div>
-  `
+  `,
+  methods: {
+    addedGood() {
+      this.$emit('addednewgood');
+    }
+  }
 })
 
 
@@ -16,7 +21,7 @@ Vue.component('goods-item', {
     <div class="goods-item">
       <h3>{{ good.title }}</h3>
       <p>{{ good.price }}₽</p>
-      <button class="add-cart-button" type="button" @click="addToCart">Добавить в корзину</button>
+      <button class="add-del-cart-button" type="button" @click="addToCart">Добавить в корзину</button>
     </div>
   `,
   methods: {
@@ -28,6 +33,14 @@ Vue.component('goods-item', {
         },
         body: JSON.stringify({product_name: this.good.title, price: this.good.price}),
       })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        if (response.status_code == 200) {
+          this.$emit('addedgood');
+        }
+      });
     }
   }
 })
@@ -39,11 +52,16 @@ Vue.component('cart', {
     <div class="cart">
       <p>Корзина</p>
       <div class="goods-list">
-        <cart-item v-for="good of goods" :good="good"></cart-item>  
+        <cart-item v-for="good of goods" :good="good" @deletedgood="deletedGood"></cart-item>  
       </div>
       <p class="total-cost">Общая стоимость: {{ totalcost }}</p>
     </div>
-  `
+  `,
+  methods: {
+    deletedGood() {
+      this.$emit('deletedgood');
+    }
+  }
 })
 
 
@@ -54,8 +72,28 @@ Vue.component('cart-item', {
       <h3>{{ good.title }}</h3>
       <p>{{ good.price }}₽</p>
       <p>{{ good.quantity }}</p>
+      <button class="add-del-cart-button" type="button" @click="delFromCart">Удалить из корзины</button>
     </div>
-  `
+  `,
+  methods: {
+    delFromCart() {
+      fetch(`${API_URL}deleteFromCart`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({product_name: this.good.title, price: this.good.price}),
+      })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        if (response.status_code == 200) {
+          this.$emit('deletedgood');
+        }
+      });
+    }
+  }
 })
 
 Vue.component('search', {
@@ -150,6 +188,6 @@ var app = new Vue({
   },
 
   mounted() {
-    this.loadGoods();
+    this.loadGoods();   
   }
 })

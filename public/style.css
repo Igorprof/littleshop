@@ -79,7 +79,7 @@ button {
     transition: .5s;
 }
 
-.add-cart-button {
+.add-del-cart-button {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 10pt;
     padding: 5px;
